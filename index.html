@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Tic Tac Toe</title>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <main>
+    <div id="game" class="game-board">
+      <header class="header">
+        <h1 class="title">Tic Tac Toe</h1>
+        <div class="game-info">
+          <span>Player: </span><span id="player-symbol">X</span>
+        </div>
+    </header>
+
+      <!-- Game Board -->
+
+      <div id="board" class="jogo-da-velha flex-row">
+        <div class="cell" data-col="1" data-row="1" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="2" data-row="1" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="3" data-row="1" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="1" data-row="2" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="2" data-row="2" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="3" data-row="2" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="1" data-row="3" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="2" data-row="3" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+        <div class="cell" data-col="3" data-row="3" data-symbol="">
+          <button class="game-cell btn"></button>
+        </div>
+      </div>
+
+      <!-- Result Modal -->
+
+      <div class="modal-shadow">
+        <div id="modal" class="modal-window">
+          <h2 id="game-over"></h2>
+          <p>Do you want to play again?</p>
+          <div>
+            <button type="button" id="button-yes" class="yes">Yes</button>
+            <button type="button" id="button-no" class="no">No</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>
