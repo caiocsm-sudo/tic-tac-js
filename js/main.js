@@ -1,3 +1,7 @@
+/* 
+  next time i'll do it in TypeScript and, maybe, with React too...
+*/
+
 // selectors
 const gameBoard = document.querySelectorAll('.game-cell');
 const playerSymbol = document.querySelector('#player-symbol');
