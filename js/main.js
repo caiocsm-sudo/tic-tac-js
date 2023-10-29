@@ -46,6 +46,7 @@ const checkPlayerWin = () => {
       oneDimensionBoard[a] === oneDimensionBoard[b] &&
       oneDimensionBoard[a] === oneDimensionBoard[c]
     ) {
+      // working, but need a better implementation
       return oneDimensionBoard[a];
     }
   }
