@@ -1,12 +1,5 @@
 /* 
-  next time i'll do it in TypeScript and, maybe, with React too...
-*/
-
-/* 
-  TODO: Game winning logic, modal window, character styling and player colours too;
-  TODO: Refactor the code later
-
-  IDEAS: Creating a game class and put all methods inside it
+  TODO: Game logic understanding
 */
 
 // selectors
@@ -22,16 +15,13 @@ const boardArray = [
   ["", "", ""],
 ];
 
+const oneDimensionBoard = new Array(9).fill("");
+
 let turn = 1;
 
 const setPlayerTurn = () => {
-  if (turn === 0) {
-    turn = 1;
-    playerSymbol.textContent = player[turn];
-  } else {
-    turn = 0;
-    playerSymbol.textContent = player[turn];
-  }
+  turn = turn === 1 ? 0 : 1;
+  playerSymbol.textContent = player[turn];
 };
 
 const checkPlayerWin = () => {
@@ -46,10 +36,23 @@ const checkPlayerWin = () => {
     [2, 4, 6], // diagonals
   ];
 
+  let winMessage = "";
+
   for (const i of boardWin) {
     const [a, b, c] = i;
 
-    console.log(a, b, c);
+    if (
+      oneDimensionBoard[a] &&
+      oneDimensionBoard[a] === oneDimensionBoard[b] &&
+      oneDimensionBoard[a] === oneDimensionBoard[c]
+    ) {
+      return oneDimensionBoard[a];
+    }
+  }
+  if (oneDimensionBoard.every((el) => el !== "")) {
+    alert('empatou, fdp');
+    winMessage = "Draw!";
+    return;
   }
 };
 
@@ -86,7 +89,11 @@ const clickEventHandler = () => {
       t.innerHTML = player[turn];
       t.classList.add("clicked");
 
-      boardArray[col][row] = player[turn];
+      // boardArray[col][row] = player[turn];
+
+      oneDimensionBoard[col + row] = player[turn];
+
+      checkPlayerWin();
 
       console.table(boardArray);
 
