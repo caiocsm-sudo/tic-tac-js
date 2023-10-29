@@ -2,17 +2,24 @@
   next time i'll do it in TypeScript and, maybe, with React too...
 */
 
-// selectors
-const gameBoard = document.querySelectorAll('.game-cell');
-const playerSymbol = document.querySelector('#player-symbol');
-const button = document.querySelectorAll('.btn');
+/* 
+  TODO: Game winning logic, modal window, character styling and player colours too;
+  TODO: Refactor the code later
 
-const player = ['X', 'O'];
+  IDEAS: Creating a game class and put all methods inside it
+*/
+
+// selectors
+const gameBoard = document.querySelectorAll(".game-cell");
+const playerSymbol = document.querySelector("#player-symbol");
+const button = document.querySelectorAll(".btn");
+
+const player = ["X", "O"];
 
 const boardArray = [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
 ];
 
 let turn = 1;
@@ -29,9 +36,14 @@ const setPlayerTurn = () => {
 
 const checkPlayerWin = () => {
   const boardWin = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-    [0, 4, 8], [2, 4, 6] // diagonals
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8], // rows
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8], // columns
+    [0, 4, 8],
+    [2, 4, 6], // diagonals
   ];
 
   for (const i of boardWin) {
@@ -43,28 +55,36 @@ const checkPlayerWin = () => {
 
 const playAgain = () => {
   for (let i = 0; i < gameBoard.length; i++) {
-    gameBoard[i].classList.remove('clicked');
-    gameBoard[i].innerText = '';
+    gameBoard[i].classList.remove("clicked");
+    gameBoard[i].innerText = "";
   }
+
   for (let i = 0; i < boardArray.length; i++) {
     for (let j = 0; j < boardArray.length; j++) {
-      boardArray[i][j] = '';
+      boardArray[i][j] = "";
     }
   }
+
   turn = 0;
   console.log(boardArray);
 };
 
 const clickEventHandler = () => {
-  window.addEventListener('click', e => {
-    if (e.target.classList.contains('btn')) {
-      if (e.target.classList.contains('clicked')) return;
+  window.addEventListener("click", (e) => {
+    if (e.target.classList.contains("btn")) {
+      if (e.target.classList.contains("clicked")) return;
       const t = e.target;
-      const [col, row] = [t.parentNode.dataset.col -1, t.parentNode.dataset.row -1];
+
+      // using JavaScript bleeding edge features for creating multiple variables with an array;
+
+      const [col, row] = [
+        t.parentNode.dataset.col - 1,
+        t.parentNode.dataset.row - 1,
+      ];
 
       t.parentNode.dataset.symbol = player[turn];
       t.innerHTML = player[turn];
-      t.classList.add('clicked');
+      t.classList.add("clicked");
 
       boardArray[col][row] = player[turn];
 
@@ -72,7 +92,7 @@ const clickEventHandler = () => {
 
       setPlayerTurn();
     }
-    if (e.target.classList.contains('yes')) {
+    if (e.target.classList.contains("yes")) {
       playAgain();
     }
   });
@@ -83,7 +103,6 @@ const gameLogic = () => {
   clickEventHandler();
   checkPlayerWin();
   // console.log(boardArray);
-}
+};
 
 gameLogic();
-
