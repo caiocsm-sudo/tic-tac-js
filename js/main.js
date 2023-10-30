@@ -6,17 +6,19 @@
 const gameBoard = document.querySelectorAll(".game-cell");
 const playerSymbol = document.querySelector("#player-symbol");
 const button = document.querySelectorAll(".btn");
-
-const player = ["X", "O"];
+const modalWindow = document.querySelector("#md");
+const gameOver = document.querySelector("#game-over");
 
 const boardArray = [
   ["", "", ""],
   ["", "", ""],
   ["", "", ""],
 ];
-
 const oneDimensionBoard = new Array(9).fill("");
+const player = ["X", "O"];
 
+let winCounter = 0;
+let result = undefined;
 let turn = 1;
 
 const setPlayerTurn = () => {
@@ -25,7 +27,7 @@ const setPlayerTurn = () => {
 };
 
 const checkPlayerWin = () => {
-  const boardWin = [
+  const winPatterns = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8], // rows
@@ -36,25 +38,26 @@ const checkPlayerWin = () => {
     [2, 4, 6], // diagonals
   ];
 
-  let winMessage = "";
-
-  for (const i of boardWin) {
-    const [a, b, c] = i;
+  for (const pattern of winPatterns) {
+    const [a, b, c] = pattern;
 
     if (
       oneDimensionBoard[a] &&
       oneDimensionBoard[a] === oneDimensionBoard[b] &&
       oneDimensionBoard[a] === oneDimensionBoard[c]
     ) {
-      // working, but need a better implementation
+      // Someone has won
       return oneDimensionBoard[a];
     }
   }
-  if (oneDimensionBoard.every((el) => el !== "")) {
-    alert('empatou, fdp');
-    winMessage = "Draw!";
-    return;
+
+  if (oneDimensionBoard.every((cell) => cell !== "")) {
+    // It's a draw
+    return "Draw";
   }
+
+  // If no winner or draw, return undefined
+  return undefined;
 };
 
 const playAgain = () => {
@@ -63,14 +66,40 @@ const playAgain = () => {
     gameBoard[i].innerText = "";
   }
 
-  for (let i = 0; i < boardArray.length; i++) {
-    for (let j = 0; j < boardArray.length; j++) {
-      boardArray[i][j] = "";
-    }
+  for (let i = 0; i < oneDimensionBoard.length; i++) {
+    oneDimensionBoard[i] = "";
   }
 
+  winCounter = 0;
+  result = undefined;
   turn = 0;
-  console.log(boardArray);
+};
+
+const openModalWindow = (result) => {
+  modalWindow.classList.remove("hidden");
+
+  /*
+    * Pegadinha que eu botei pra quem fica apertando não no play again
+  */
+
+  winCounter = ++winCounter;
+  if (winCounter >= 2) {
+    if (winCounter == 4) {
+      gameOver.textContent = "Vou reiniciar fds 😠";
+      setTimeout(() => {
+        playAgain();
+        modalWindow.classList.add("hidden");
+      }, 2000);
+      return;
+    }
+    gameOver.textContent = "Aperta pra jogar dnv porra 🖕";
+    return;
+  }
+
+  if (result === "Draw") {
+    gameOver.textContent = `It's a ${result}! 😒`;
+  }
+  gameOver.textContent = `Player ${result} won! 🙌😎`;
 };
 
 const clickEventHandler = () => {
@@ -80,7 +109,6 @@ const clickEventHandler = () => {
       const t = e.target;
 
       // using JavaScript bleeding edge features for creating multiple variables with an array;
-
       const [col, row] = [
         t.parentNode.dataset.col - 1,
         t.parentNode.dataset.row - 1,
@@ -92,15 +120,27 @@ const clickEventHandler = () => {
 
       // boardArray[col][row] = player[turn];
 
-      oneDimensionBoard[col + row] = player[turn];
+      // times 3, which is the number of columns
+      const index = col + row * 3;
+      oneDimensionBoard[index] = player[turn];
 
-      checkPlayerWin();
+      result = checkPlayerWin();
 
-      console.table(boardArray);
+      if (typeof result !== "undefined") {
+        openModalWindow(result);
+      }
+
+      // console.table(boardArray);
 
       setPlayerTurn();
     }
+
+    if (e.target.classList.contains("no")) {
+      modalWindow.classList.add("hidden");
+    }
+
     if (e.target.classList.contains("yes")) {
+      modalWindow.classList.add("hidden");
       playAgain();
     }
   });
@@ -109,8 +149,6 @@ const clickEventHandler = () => {
 const gameLogic = () => {
   setPlayerTurn(); // this set the turn to 0, that's why player start on 1.
   clickEventHandler();
-  checkPlayerWin();
-  // console.log(boardArray);
 };
 
 gameLogic();
