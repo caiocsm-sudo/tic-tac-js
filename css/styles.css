@@ -10,6 +10,16 @@
   --default-transition: all 200ms ease;
 }
 
+@keyframes appearing {
+  from {
+    opacity: 0.3;
+    transform: translateY(-75px);
+  } to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .header .game-info {
   text-align: center;
   font-size: 1.5rem;
@@ -62,7 +72,7 @@
 }
 
 .modal-shadow {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,6 +81,7 @@
   height: 100vh;
   width: 100vw;
   top: 0;
+  z-index: 100;
   transition: var(--default-transition);
 }
 
@@ -84,6 +95,7 @@
   border-radius: 7px;
   width: 30%;
   margin: auto;
+  animation: appearing 650ms cubic-bezier(.75,.26,.54,.96) forwards;
 }
 
 .modal-window #game-over {
