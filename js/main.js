@@ -1,7 +1,3 @@
-/* 
-  TODO: Game logic understanding
-*/
-
 // selectors
 const gameBoard = document.querySelectorAll(".game-cell");
 const playerSymbol = document.querySelector("#player-symbol");
@@ -46,13 +42,11 @@ const checkPlayerWin = () => {
       oneDimensionBoard[a] === oneDimensionBoard[b] &&
       oneDimensionBoard[a] === oneDimensionBoard[c]
     ) {
-      // Someone has won
       return oneDimensionBoard[a];
     }
   }
 
   if (oneDimensionBoard.every((cell) => cell !== "")) {
-    // It's a draw
     return "Draw";
   }
 
@@ -108,7 +102,6 @@ const clickEventHandler = () => {
       if (e.target.classList.contains("clicked")) return;
       const t = e.target;
 
-      // using JavaScript bleeding edge features for creating multiple variables with an array;
       const [col, row] = [
         t.parentNode.dataset.col - 1,
         t.parentNode.dataset.row - 1,
@@ -117,8 +110,6 @@ const clickEventHandler = () => {
       t.parentNode.dataset.symbol = player[turn];
       t.innerHTML = player[turn];
       t.classList.add("clicked");
-
-      // boardArray[col][row] = player[turn];
 
       // times 3, which is the number of columns
       const index = col + row * 3;
@@ -129,8 +120,6 @@ const clickEventHandler = () => {
       if (typeof result !== "undefined") {
         openModalWindow(result);
       }
-
-      // console.table(boardArray);
 
       setPlayerTurn();
     }
